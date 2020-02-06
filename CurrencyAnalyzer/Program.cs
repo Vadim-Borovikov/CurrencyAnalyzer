@@ -35,12 +35,12 @@ namespace CurrencyAnalyzer
             DateTime secondDay = firstDay.AddDays(1);
             DateTime lastDay = rates.Keys.Max();
 
-            uint currentBump = 0;
+            Bump current = null;
             for (DateTime today = secondDay; today <= lastDay; today = today.AddDays(1))
             {
                 if (!rates.ContainsKey(today))
                 {
-                    currentBump = 0;
+                    current = null;
                     continue;
                 }
 
@@ -52,12 +52,22 @@ namespace CurrencyAnalyzer
 
                 if (rates[today] < rates[yesterday])
                 {
-                    ++currentBump;
+                    if (current == null)
+                    {
+                        current = new Bump(rates[yesterday]);
+                    }
+                    else
+                    {
+                        ++current.Days;
+                    }
                 }
-                else if (currentBump > 0)
+                else if (current != null)
                 {
-                    bumps[today] = currentBump;
-                    currentBump = 0;
+                    if (rates[today] < current.StartRate)
+                    {
+                        bumps[today] = current.Days;
+                    }
+                    current = null;
                 }
             }
             return bumps;
@@ -67,8 +77,8 @@ namespace CurrencyAnalyzer
         {
             var result = new Dictionary<uint, BumpInfo>();
 
-            uint startYear = bumps.Keys.Min(d => (uint) d.Year);
-            uint finishYear = bumps.Keys.Max(d => (uint) d.Year);
+            uint startYear = bumps.Keys.Min(d => (uint)d.Year);
+            uint finishYear = bumps.Keys.Max(d => (uint)d.Year);
 
             foreach (DateTime date in bumps.Keys)
             {
