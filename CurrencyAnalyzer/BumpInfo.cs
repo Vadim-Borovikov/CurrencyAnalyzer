@@ -22,7 +22,7 @@ namespace CurrencyAnalyzer
             info.IncrementValueOf(date);
         }
 
-        public uint MinInYear => _byYear.Min(y => y.Value.Total);
+        public double Average => _byYear.Average(y => y.Value.Average);
 
         private readonly Dictionary<uint, YearInfo> _byYear;
     }

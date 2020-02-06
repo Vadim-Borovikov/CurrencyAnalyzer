@@ -17,9 +17,12 @@ namespace CurrencyAnalyzer
             }
         }
 
-        public uint Total => (uint)_byMounth.Values.Sum(x => x);
+        public double Average => _byMounth.Values.Average(x => x);
 
-        public void IncrementValueOf(DateTime date) { _byMounth[(uint)date.Month] = _byMounth[(uint)date.Month] + 1; }
+        public void IncrementValueOf(DateTime date)
+        {
+            _byMounth[(uint) date.Month] = _byMounth[(uint) date.Month] + 1;
+        }
 
         private readonly Dictionary<uint, uint> _byMounth;
     }

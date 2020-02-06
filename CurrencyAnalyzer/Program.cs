@@ -13,12 +13,12 @@ namespace CurrencyAnalyzer
             Dictionary<DateTime, uint> bumps = GetBumps(rates);
             Dictionary<uint, BumpInfo> infos = Analyze(bumps);
 
-            Console.Write("Minimum year rate of bump: ");
+            Console.Write("Minimum year average of bump: ");
             string line = Console.ReadLine();
-            uint minInYear = uint.Parse(line ?? throw new InvalidOperationException());
+            double average = double.Parse(line ?? throw new InvalidOperationException());
 
-            uint maxBump = GetMaxBumpWith(infos, minInYear);
-            Console.WriteLine($"Longest bump happened at least {minInYear} times/year: {maxBump}");
+            uint maxBump = GetMaxBumpWith(infos, average);
+            Console.WriteLine($"Longest bump happened in average {average} times/month: {maxBump}");
         }
 
         private static Dictionary<DateTime, decimal> LoadCurrencyRates()
@@ -92,9 +92,9 @@ namespace CurrencyAnalyzer
             return result;
         }
 
-        private static uint GetMaxBumpWith(Dictionary<uint, BumpInfo> infos, uint minInYear)
+        private static uint GetMaxBumpWith(Dictionary<uint, BumpInfo> infos, double average)
         {
-            return infos.Where(i => i.Value.MinInYear >= minInYear).Max(i => i.Key);
+            return infos.Where(i => i.Value.Average >= average).Max(i => i.Key);
         }
 
         private const string RatesPath = "Rates.csv";
