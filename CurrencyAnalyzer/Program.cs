@@ -40,11 +40,7 @@ namespace CurrencyAnalyzer
             {
                 if (!rates.ContainsKey(today))
                 {
-                    if (currentBump > 0)
-                    {
-                        bumps[today] = currentBump;
-                        currentBump = 0;
-                    }
+                    currentBump = 0;
                     continue;
                 }
 
