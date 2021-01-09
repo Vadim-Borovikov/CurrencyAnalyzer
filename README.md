@@ -1,3 +1,3 @@
 # CurrencyAnalyzer
 ## Description
-«Bumps» detection in currency rates
+«Bumps» detection in currency rates.
